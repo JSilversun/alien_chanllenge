@@ -23,6 +23,7 @@ class CommandCenter:
         self.missing_cells=self.total_cells-self.discovered_cells
         self.center_x=round((float(self.max_x-self.min_x+1)/2+self.min_x)*self.scale,3)
         self.center_y=round((float(self.max_y-self.min_y+1)/float(2)+self.min_y)*self.scale,3)
+        self.area=round(float(self.max_x-self.min_x+1)*(self.max_y-self.min_y+1)*self.scale,3)
         
     def check_cell(self, name, row, col):
         if name=="XX":
@@ -32,6 +33,10 @@ class CommandCenter:
 def destroy_layer(m,command_centers):
     sub_result=""
     layer_centers=[_ for _ in command_centers if _.missing_cells==0]
+    layer_centers.sort(key=lambda _: (_.area,_.name))
+    for i,command_center in enumerate(layer_centers):
+        print(command_center.name,command_center.area)
+    print("---")
     for i,command_center in enumerate(layer_centers):
         if command_center.missing_cells==0:
             sub_result+=str(command_center.name)+":"+str(format(command_center.center_y,'.3f'))+","+str(format(command_center.center_x,'.3f'))
