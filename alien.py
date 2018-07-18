@@ -34,7 +34,6 @@ def destroy_layer(m,command_centers):
     sub_result=""
     layer_centers=[_ for _ in command_centers if _.missing_cells==0]
     layer_centers.sort(key=lambda _: (_.area,_.name))
-    print("---")
     for i,command_center in enumerate(layer_centers):
         if command_center.missing_cells==0:
             sub_result+=str(command_center.name)+":"+str(format(command_center.center_y,'.3f'))+","+str(format(command_center.center_x,'.3f'))
