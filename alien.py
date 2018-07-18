@@ -21,8 +21,8 @@ class CommandCenter:
         self.total_cells=(self.max_x-self.min_x+1)*(self.max_y-self.min_y+1)
         self.discovered_cells+=1
         self.missing_cells=self.total_cells-self.discovered_cells
-        self.center_x=round(((self.max_x-self.min_x+1)/2+self.min_x)*self.scale,3)
-        self.center_y=round(((self.max_y-self.min_y+1)/2+self.min_y)*self.scale,3)
+        self.center_x=round((float(self.max_x-self.min_x+1)/2+self.min_x)*self.scale,3)
+        self.center_y=round((float(self.max_y-self.min_y+1)/float(2)+self.min_y)*self.scale,3)
         
     def check_cell(self, name, row, col):
         if name=="-":
