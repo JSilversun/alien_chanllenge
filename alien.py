@@ -16,7 +16,6 @@ class CommandCenter:
         self.last_y=row
         self.center=0
 
- 
     def check_bounds(self, name, row, col):
         if self.min_x>col:
             self.min_x=col
@@ -52,6 +51,7 @@ def main():
     fname="input.txt"
     lines=[line.rstrip('\r\n') for line in open(fname)]
     n=int(lines[0])
+    # Reading file
     for i in range(1,n+1):
         ship_dimensions=[float(x) for x in lines[i].split()]
         ship_width=int(ship_dimensions[1])
@@ -71,7 +71,8 @@ def main():
                     command_centers.append(CommandCenter(current_center, row, col,scale))
                 else:
                     command_center.check_bounds(current_center, row, col)
-            
+
+    # Algorithm        
     result=""
     command_centers.sort(key=lambda x: x.missing_cells)
     i=0
