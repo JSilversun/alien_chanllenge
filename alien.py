@@ -25,7 +25,7 @@ class CommandCenter:
         self.center_y=round((float(self.max_y-self.min_y+1)/float(2)+self.min_y)*self.scale,3)
         
     def check_cell(self, name, row, col):
-        if name=="-":
+        if name=="XX":
             self.discovered_cells+=1
             self.missing_cells-=1
 
@@ -37,7 +37,7 @@ def destroy_layer(m,command_centers):
             sub_result+=str(command_center.name)+":"+str(format(command_center.center_y,'.3f'))+","+str(format(command_center.center_x,'.3f'))
             for row in range(command_center.min_y,command_center.max_y+1):
                 for col in range(command_center.min_x,command_center.max_x+1):
-                    m[row][col]="-"
+                    m[row][col]="XX"
             if len(layer_centers)>1 and i+1<len(layer_centers):
                 sub_result+=";"
             else:
@@ -64,12 +64,13 @@ def main():
             for col in range(0,ship_width):
                 m[row][col]=line[col]
                 current_center=m[row][col]
-                command_center=next((_ for _ in command_centers if _.name==current_center),None)
-                #Add de command center if it isn't in the list
-                if command_center is None:
-                    command_centers.append(CommandCenter(current_center, row, col,scale))
-                else:
-                    command_center.check_bounds(current_center, row, col)
+                if re.match(r"[a-zA-Z]+", current_center):
+                    command_center=next((_ for _ in command_centers if _.name==current_center),None)
+                    #Add de command center if it isn't in the list
+                    if command_center is None:
+                        command_centers.append(CommandCenter(current_center, row, col,scale))
+                    else:
+                        command_center.check_bounds(current_center, row, col)
         
         # Algorithm      
         result=""
@@ -84,7 +85,7 @@ def main():
                 stop=False
                 for row in range(command_center.last_y,command_center.max_y+1):
                     for col in range(command_center.last_x,command_center.max_x+1):
-                        if m[row][col]==command_center.name or m[row][col]=='-':
+                        if m[row][col]==command_center.name or m[row][col]=='XX':
                             command_center.check_cell(m[row][col],row,col)
                         else:
                             command_center.last_x=col
