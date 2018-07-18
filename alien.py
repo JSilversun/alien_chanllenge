@@ -8,12 +8,8 @@ class CommandCenter:
         self.missing_cells=-1
         self.discovered_cells=1
         self.total_cells=1
-        self.min_x=col
-        self.max_x=col
-        self.min_y=row
-        self.max_y=row
-        self.last_x=col
-        self.last_y=row
+        self.min_x=self.max_x=self.last_x=col
+        self.min_y=self.max_y=self.last_y=row
         self.center=0
 
     def check_bounds(self, name, row, col):
@@ -72,12 +68,12 @@ def main():
                 else:
                     command_center.check_bounds(current_center, row, col)
 
-    # Algorithm        
+    # Algorithm      
     result=""
     command_centers.sort(key=lambda x: x.missing_cells)
     i=0
     limit=100
-    while command_centers>0 and i>limit:
+    while command_centers>0 and i<limit:
         i+=1
         result+=destroy_layer(m,command_centers)
         command_centers=[_ for _ in command_centers if _.missing_cells!=0]  
